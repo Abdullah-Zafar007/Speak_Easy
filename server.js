@@ -4,6 +4,7 @@ const express = require("express");
 
 const mongoose = require("mongoose");
 const cors = require("cors");
+const session = require('express-session');
 const path = require("path");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -23,6 +24,40 @@ const bcrypt = require("bcryptjs");
 const app = express();
 const PORT = process.env.PORT || 4200;
 
+const allowedOrigins = [
+  "https://speakeasy-production-c15b.up.railway.app", // Your frontend
+  "http://localhost:3000"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for this origin"));
+    }
+  },
+  credentials: true,
+}));
+
+app.options("*", cors()); // Handle preflight
+
+// ✅ Session (AFTER CORS)
+app.use(session({
+  name: "sessionId",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: true,       // 🔐 Important on Railway (HTTPS)
+    sameSite: "none"    // 🔥 Required for cross-origin cookies
+  }
+}));
+
+
+
+
 // -------------- MIDDLEWARE -----------------
 
 app.set("view engine", "ejs");
@@ -38,13 +73,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const AssignedLesson = require("./models/AssignedLesson");
-const session = require('express-session');
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.userId) {
@@ -104,35 +134,6 @@ const Response = mongoose.model("Response", responseSchema);
 
 
 
-const allowedOrigins = [
-  "https://speakeasy-production-c15b.up.railway.app",
-  "http://localhost:3000"
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
-
-app.options("*", cors());
-
-app.use(session({
-  name: "sessionId",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: "none"
-  }
-}));
 
 
 
