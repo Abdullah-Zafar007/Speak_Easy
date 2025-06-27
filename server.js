@@ -102,23 +102,18 @@ const responseSchema = new mongoose.Schema({
 });
 const Response = mongoose.model("Response", responseSchema);
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5500",
-  "http://127.0.0.1:5500",
-  "https://speakeasy-production-c15b.up.railway.app"
-];
 
+
+// ✅ Allow ALL origins (for testing only)
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // ✅ Important for session/cookie
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
+
+// ✅ Support preflight requests
+app.options("*", cors());
 
 // Also add this:
 app.options("*", cors()); // ✅ Preflight support
