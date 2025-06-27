@@ -56,6 +56,7 @@
         fetch(`${baseUrl}/api/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+ credentials: "include", // ✅ Add this line!
             body: JSON.stringify({ email, password, role }),
         })
         .then(response => response.json())
