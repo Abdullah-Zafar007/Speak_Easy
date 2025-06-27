@@ -104,16 +104,13 @@ const Response = mongoose.model("Response", responseSchema);
 
 
 
-// ✅ Allow ALL origins (for testing only)
 app.use(cors({
-  origin: "*",
+  origin: "https://speakeasy-production-c15b.up.railway.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
-// ✅ Support preflight requests
-app.options("*", cors());
 
 // Also add this:
 app.options("*", cors()); // ✅ Preflight support
