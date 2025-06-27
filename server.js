@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 4200;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.options("*", cors()); // ✅ Allow preflight for all routes
+
 
 
 
@@ -102,7 +102,6 @@ const responseSchema = new mongoose.Schema({
 });
 const Response = mongoose.model("Response", responseSchema);
 
-// --- CORS middleware (move this up top after express() setup) ---
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5500",
@@ -112,17 +111,18 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      return callback(new Error("Not allowed by CORS"));
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
+  credentials: true, // ✅ Important for session/cookie
 }));
 
-app.options("*", cors()); // ✅ <-- THIS LINE to handle preflight
+// Also add this:
+app.options("*", cors()); // ✅ Preflight support
+
 
 
 
