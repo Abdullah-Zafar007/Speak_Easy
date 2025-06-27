@@ -104,12 +104,36 @@ const Response = mongoose.model("Response", responseSchema);
 
 
 
+const allowedOrigins = [
+  "https://speakeasy-production-c15b.up.railway.app",
+  "http://localhost:3000"
+];
+
 app.use(cors({
-  origin: "https://speakeasy-production-c15b.up.railway.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
+app.options("*", cors());
+
+app.use(session({
+  name: "sessionId",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: "none"
+  }
+}));
+
 
 
 // Also add this:
