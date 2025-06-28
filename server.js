@@ -22,9 +22,7 @@ const bcrypt = require("bcryptjs");
 
 
 const app = express();
-app.get("/", (req, res) => {
-  res.send("✅ Backend server is running!");
-});
+
 
 const PORT = process.env.PORT || 8080;
 
