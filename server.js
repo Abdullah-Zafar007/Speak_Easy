@@ -40,7 +40,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.options("*", cors()); // Handle preflight
+
 
 // ✅ Session (AFTER CORS)
 app.use(session({
@@ -133,12 +133,6 @@ const responseSchema = new mongoose.Schema({
 const Response = mongoose.model("Response", responseSchema);
 
 
-
-
-
-
-// Also add this:
-app.options("*", cors()); // ✅ Preflight support
 
 
 
