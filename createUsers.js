@@ -3,9 +3,7 @@ const bcrypt = require("bcryptjs");
 const User = require("./models/User"); // ✅ Adjust path if needed
 
 // ✅ Replace this with your actual MongoDB URI
-require("dotenv").config();
-const MONGO_URI = process.env.MONGO_URI;
-
+const MONGO_URI = "mongodb+srv://az577330:az577330@cluster0.6wocct5.mongodb.net/ustdb?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(MONGO_URI, {
   serverSelectionTimeoutMS: 5000
@@ -31,18 +29,18 @@ const usersToCreate = [
     email: "admin@example.com",
     phone: "03001234567",
     password: "admin123",
-    role: "admin"
+    role: "admin",
   },
   {
-  name: "Dr. Hira Khan",
-  username: "drhira",
-  email: "hira@example.com",
-  phone: "03451234567",
-  password: "hira789",
-  role: "therapist"
-}
-
+    name: "Dr. Hira Khan",
+    username: "drhira",
+    email: "hira@example.com",
+    phone: "03451234567",
+    password: "hira789",
+    role: "therapist",
+  }
 ];
+
 
 async function createUsers() {
   for (let user of usersToCreate) {
