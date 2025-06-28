@@ -3,7 +3,9 @@ const bcrypt = require("bcryptjs");
 const User = require("./models/User"); // ✅ Adjust path if needed
 
 // ✅ Replace this with your actual MongoDB URI
-const MONGO_URI = "mongodb://localhost:27017/speech_therapy";
+require("dotenv").config();
+const MONGO_URI = process.env.MONGO_URI;
+
 
 mongoose.connect(MONGO_URI, {
   serverSelectionTimeoutMS: 5000
@@ -29,7 +31,7 @@ const usersToCreate = [
     email: "admin@example.com",
     phone: "03001234567",
     password: "admin123",
-    role: "admin",
+    role: "admin"
   },
   {
   name: "Dr. Hira Khan",
@@ -37,7 +39,7 @@ const usersToCreate = [
   email: "hira@example.com",
   phone: "03451234567",
   password: "hira789",
-  role: "therapist",
+  role: "therapist"
 }
 
 ];
