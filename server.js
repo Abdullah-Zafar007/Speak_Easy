@@ -37,7 +37,7 @@ app.use(cors({
       callback(new Error("CORS not allowed for this origin"));
     }
   },
-  credentials: true,
+  credentials: true
 }));
 
 
