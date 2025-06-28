@@ -30,7 +30,7 @@ const PORT = process.env.PORT || 8080;
 
 
 const allowedOrigins = [
-  "https://speakeasy-production-c15b.up.railway.app",
+  "https://speakeasy-production-c15b.up.railway.app", // your frontend domain
   "http://localhost:8080"
 ];
 
@@ -44,6 +44,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 
 // Important for preflight
 app.options("*", cors({
