@@ -24,11 +24,11 @@ const bcrypt = require("bcryptjs");
 const app = express();
 const PORT = process.env.PORT || 4200;
 
-const allowedOrigins = [
-  "https://speakeasy-production-c15b.up.railway.app", // ✅ Production frontend
-  "http://localhost:8080"                            // ✅ Local frontend
-];
 
+const allowedOrigins = [
+  "https://speakeasy-production-c15b.up.railway.app",
+  "http://localhost:8080"
+];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -40,8 +40,9 @@ app.use(cors({
   },
   credentials: true
 }));
-// ✅ Fix for CORS preflight issues with credentials
-app.options('*', cors({
+
+// Important for preflight
+app.options("*", cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -51,6 +52,8 @@ app.options('*', cors({
   },
   credentials: true
 }));
+
+
 
 
 
