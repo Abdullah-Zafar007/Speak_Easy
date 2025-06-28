@@ -57,7 +57,12 @@
         return;
       }
 
-      fetch("http://localhost:4200/api/users/register", {
+     const baseUrl = window.location.hostname.includes("localhost")
+  ? "http://localhost:4200"
+  : "https://speak-easy-api.up.railway.app";
+
+fetch(`${baseUrl}/api/users/register`, {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, username,email, phone, password, role }),
