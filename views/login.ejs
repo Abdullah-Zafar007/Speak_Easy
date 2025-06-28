@@ -45,23 +45,19 @@
         return;
       }
 
-      // 🔁 CORS proxy for deployed site
-      const corsProxy = "https://web-production-0314.up.railway.app/";
-      const targetBackend = "https://speak-easy-api.up.railway.app";
+      // ✅ No proxy — direct API call
       const baseUrl = window.location.hostname.includes("localhost")
         ? "http://localhost:4200"
-        : `${corsProxy}${targetBackend}`;
+        : "https://speak-easy-api.up.railway.app";
 
-  fetch(`${baseUrl}/api/users/login`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "x-requested-with": "XMLHttpRequest" // ✅ REQUIRED for your CORS proxy to work
-  },
-  credentials: "include", // for cookies
-  body: JSON.stringify({ email, password, role }),
-})
-
+      fetch(`${baseUrl}/api/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include", // ⛳ allow cookies/session headers to pass
+        body: JSON.stringify({ email, password, role }),
+      })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
