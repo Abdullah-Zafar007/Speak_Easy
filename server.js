@@ -33,29 +33,8 @@ const allowedOrigins = [
   "https://speak-easy-api.up.railway.app"
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed for this origin"));
-    }
-  },
-  credentials: true
-}));
-
-
-// Important for preflight
-app.options("*", cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed for this origin"));
-    }
-  },
-  credentials: true
-}));
+const cors = require('cors');
+app.use(cors());
 
 
 
