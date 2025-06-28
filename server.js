@@ -39,10 +39,23 @@ app.use(cors({
   },
   credentials: true
 }));
+// ✅ Fix for CORS preflight issues with credentials
+app.options('*', cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for this origin"));
+    }
+  },
+  credentials: true
+}));
 
 
 
 // ✅ Session (AFTER CORS)
+app.set('trust proxy', 1); // ✅ Trust first proxy (for secure cookies to work)
+
 app.use(session({
   name: "sessionId",
   secret: process.env.SESSION_SECRET,
