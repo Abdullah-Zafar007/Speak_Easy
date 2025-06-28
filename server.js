@@ -33,7 +33,6 @@ const allowedOrigins = [
   "https://speak-easy-api.up.railway.app"
 ];
 
-const cors = require('cors');
 app.use(cors());
 
 
