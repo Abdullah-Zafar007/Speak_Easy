@@ -52,12 +52,16 @@
         ? "http://localhost:4200"
         : `${corsProxy}${targetBackend}`;
 
-      fetch(`${baseUrl}/api/users/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // for cookies
-        body: JSON.stringify({ email, password, role }),
-      })
+  fetch(`${baseUrl}/api/users/login`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-requested-with": "XMLHttpRequest" // ✅ REQUIRED for your CORS proxy to work
+  },
+  credentials: "include", // for cookies
+  body: JSON.stringify({ email, password, role }),
+})
+
       .then(response => response.json())
       .then(data => {
         if (data.success) {
