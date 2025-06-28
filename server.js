@@ -25,9 +25,10 @@ const app = express();
 const PORT = process.env.PORT || 4200;
 
 const allowedOrigins = [
-  "https://speakeasy-production-c15b.up.railway.app", // Your frontend
-  "http://localhost:3000"
+  "https://speakeasy-production-c15b.up.railway.app", // ✅ Production frontend
+  "http://localhost:8080"                            // ✅ Local frontend
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
